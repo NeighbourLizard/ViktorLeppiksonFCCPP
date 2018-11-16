@@ -1,0 +1,51 @@
+#include <iostream>
+
+int* Bubble(int length, int* ptr) {
+//Make a pointer, which will point to the newly allocated memory, which is the size of the int numbers, which we input in the program
+	int* arr = (int*)malloc(sizeof(int)*length);
+	for (int i = 0; i < length; i++) {
+		arr[i] = ptr[i];
+	}
+//This loop sorts the numbers together.	
+/* I used length - 1 because if the iteration continues until the actual size of length 
+then it cannot compare the last number in loop to a next one because it physically doesn't exist */
+	
+	for (int z = 0; z < (length - 1); z++) {
+		for (int i = 0; i < (length - 1); i++) {
+			if (arr[i] > arr[i + 1]) {
+				int tmp = arr[i];
+				arr[i] = arr[i + 1];
+				arr[i + 1] = tmp;
+			}
+		}
+	}
+	return arr;
+}
+
+int main() {
+	//Here the user has to input how many numbers should be in a sequence, which the program will fill with random numbers
+
+	int size;
+	scanf_s("%d", &size);
+
+	int* mainptr = (int*)malloc(sizeof(int)*size);
+
+	for (int i = 0; i < size; i++) {
+		int r = rand() % 50;
+		mainptr[i] = r;
+	}
+
+	int* ptrkutu = Bubble(size, mainptr);
+
+
+	for (int i = 0; i < size; i++) {
+		printf("%d\n", ptrkutu[i]);
+	}
+
+	free(mainptr);
+	free(ptrkutu);
+	char a;
+	std::cin >> a;
+	return 0;
+
+}
