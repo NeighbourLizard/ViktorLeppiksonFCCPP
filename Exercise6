@@ -1,0 +1,94 @@
+#include "pch.h"
+#include <iostream>
+
+//Cleans up memory
+void deletor(double**ptrarr, int size1) {
+	for (int i = 0; i < size1; i++) {
+		free(ptrarr[i]);
+	}
+	free(ptrarr);
+}
+//Makes a pointer array
+double** ptrnum(int size){
+	double** ptrarr = (double**)malloc(sizeof(double*)*size);
+	for(int i=0; i<size; i++){ 
+		ptrarr[i] = (double*)malloc(sizeof(double)*size);
+	}
+	
+	return ptrarr;
+}
+//Writes random INT numbers in a given array
+void randomnum(double** ptrarr, int size) {
+	for (int z = 0; z < size; z++){
+		for (int a = 0; a < size; a++) {
+			ptrarr[z][a] = rand() % 50;
+		}
+	}
+}
+//Prints the given array
+void printmethod(double** ptrarr, int size){
+	for (int z = 0; z<size; z++){
+		for (int a = 0; a < size; a++){
+			printf(" [ %f ] ", ptrarr[z][a]);
+		}
+		printf("\n");
+	}
+}
+//Sums up matrices
+double **matrixsum(double **arra, double **arra2, int size) {
+	double** xarray = ptrnum(size);
+		for (int i = 0; i < size; i++) {
+			for (int z = 0; z < size; z++) {
+				xarray[i][z] = arra[i][z] + arra2[i][z];
+			}
+		}
+		return xarray;
+}
+//Multiplies matrices
+double **multimatrix(double **arra, double **arra2, int size) {
+	double** multiarr = ptrnum(size);
+	double sum = 0;
+	for (int i = 0; i < size; i++) {
+		for (int z = 0; z < size; z++) {
+			for (int a = 0; a < size; a++) {
+				sum = sum + (arra[z][a] * arra2[a][i]);
+			}
+		multiarr[z][i] = sum;
+		sum = 0;
+		}
+
+	}
+	return multiarr;
+}
+int main()
+{
+	int size;
+	printf("Please input the size of an Array: ");
+	scanf_s("%d", &size);
+	
+	double** arra = ptrnum(size);
+	double** arra2 = ptrnum(size);
+	randomnum(arra, size);
+	randomnum(arra2, size);
+
+	printf("\nFirst Array: \n\n");
+	printmethod(arra, size);
+
+	printf("\nSecond Array: \n\n");
+	printmethod(arra2, size);
+
+	double **ezlife = matrixsum(arra, arra2, size);
+	printf("\nSum of two Arrays: \n\n");
+	printmethod(ezlife, size);
+
+	double **ezgame = multimatrix(arra, arra2, size);
+	printf("\nMultiplication of these matrixes gives result of: \n\n");
+	printmethod(ezgame, size);
+
+	deletor(ezgame, size);
+	deletor(arra, size);
+	deletor(arra2, size);
+	deletor(ezlife, size);
+	
+	return 0;
+}
